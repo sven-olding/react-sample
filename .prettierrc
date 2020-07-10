@@ -1,11 +1,20 @@
 {
+  "parser": "typescript",
   "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,
-  "semi": false,
+  "semi": true,
   "singleQuote": true,
   "trailingComma": "all",
   "bracketSpacing": false,
   "jsxBracketSameLine": false,
-  "proseWrap": "always"
+  "proseWrap": "always",
+  "overrides": [
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css"
+      }
+    }
+  ]
 }

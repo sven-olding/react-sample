@@ -9,22 +9,29 @@
   "scripts": {
     "clean": "rm dist/bundle.js",
     "lint": "eslint .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "format": "prettier --write \"src/*.+(js|jsx|ts|tsx|json|yml|yaml|css|md|vue)\"",
     "build-dev": "webpack -d --mode development",
     "build-prod": "webpack -p --mode production",
     "start": "webpack-dev-server --hot --mode development"
   },
   "dependencies": {
+    "@types/jest": "^26.0.4",
+    "@types/node": "^14.0.20",
+    "@types/react": "^16.9.41",
+    "@types/react-dom": "^16.9.8",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.21"
+    "react-hot-loader": "^4.12.21",
+    "typescript": "^3.9.6"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "@hot-loader/react-dom": "^16.13.0+4.12.20",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
     "eslint": "^7.4.0",
@@ -35,6 +42,7 @@
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "style-loader": "^1.2.1",
+    "ts-loader": "^8.0.0",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
@@ -46,7 +54,7 @@
     }
   },
   "lint-staged": {
-    "./src/*.(js|jsx|md|ts|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
+    "./src/*.(js|jsx|md|ts|tsx|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
       "eslint --fix",
       "prettier --write",
       "git add"
