@@ -1,0 +1,41 @@
+{
+  "name": "react-sample",
+  "version": "1.0.0",
+  "description": "React sample app with webpack eslint and prettier config",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "clean": "rm dist/bundle.js",
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "build-dev": "webpack -d --mode development",
+    "build-prod": "webpack -p --mode production",
+    "start": "webpack-dev-server --hot --mode development"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.12.21"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@hot-loader/react-dom": "^16.13.0+4.12.20",
+    "webpack-dev-server": "^3.11.0",
+    "css-loader": "^3.6.0",
+    "style-loader": "^1.2.1",
+    "eslint": "^7.4.0",
+    "eslint-plugin-react": "^7.20.3",
+    "url-loader": "^4.1.0",
+    "prettier": "^2.0.5",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4"
+  }
+}
