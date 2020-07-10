@@ -1,21 +1,16 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import {hot} from 'react-hot-loader/root';
 
-class App extends React.Component {
-  render() {
-    const {name} = this.props;
-    return (
-      <>
-        <h1>Hallo {name}</h1>
-      </>
-    );
-  }
+export interface AppProps {
+  name: string;
 }
 
-App.propTypes = {
-  name: PropTypes.string.isRequired,
-};
+export class App extends React.Component<AppProps> {
+  render(): JSX.Element {
+    const {name} = this.props;
+    return <h1>Hallo, {name}</h1>;
+  }
+}
 
 export default hot(App);
