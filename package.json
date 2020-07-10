@@ -56,8 +56,7 @@
   "lint-staged": {
     "./src/*.(js|jsx|md|ts|tsx|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
       "eslint --fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   }
 }
