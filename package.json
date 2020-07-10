@@ -21,21 +21,35 @@
     "react-hot-loader": "^4.12.21"
   },
   "devDependencies": {
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12",
-    "@babel/preset-react": "^7.10.4",
-    "babel-loader": "^8.1.0",
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
     "@hot-loader/react-dom": "^16.13.0+4.12.20",
-    "webpack-dev-server": "^3.11.0",
+    "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
-    "style-loader": "^1.2.1",
     "eslint": "^7.4.0",
-    "eslint-plugin-react": "^7.20.3",
-    "url-loader": "^4.1.0",
-    "prettier": "^2.0.5",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.4"
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js|jsx|md|ts|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   }
 }
