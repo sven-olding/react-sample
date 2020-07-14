@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {hot} from 'react-hot-loader/root';
+import {Greeting} from './components/Greeting';
 
 export interface AppProps {
   name: string;
@@ -9,7 +10,8 @@ export interface AppProps {
 export class App extends React.Component<AppProps> {
   render(): JSX.Element {
     const {name} = this.props;
-    return <h1>Hallo, {name}</h1>;
+
+    return <Greeting name={name} />;
   }
 }
 
