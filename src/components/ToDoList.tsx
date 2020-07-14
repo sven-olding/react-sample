@@ -56,7 +56,9 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
             placeholder="Deine neue Aufgabe..."
             onChange={this.setNewToDoText}
           />
-          <button type="submit">Neue Aufgabe</button>
+          <button type="submit" disabled={this.state.newToDoText.length == 0}>
+            Neue Aufgabe
+          </button>
         </form>
       </div>
     );
