@@ -4,17 +4,34 @@ interface ToDoListItemProps {
   todo: ToDo;
 }
 
-export const ToDoListItem: React.FC<ToDoListItemProps> = (
-  props: ToDoListItemProps,
-) => {
-  const {todo} = props;
+interface ToDoListItemState {
+  id: string;
+  text: string;
+  complete: boolean;
+}
 
-  return (
-    <li>
-      <label
-        style={{textDecoration: todo.complete ? 'line-through' : undefined}}
-      ></label>
-      <input type="checkbox" readOnly checked={todo.complete} /> {todo.text}
-    </li>
-  );
-};
+export class ToDoListItem extends React.Component<
+  ToDoListItemProps,
+  ToDoListItemState
+> {
+  constructor(props: ToDoListItemProps) {
+    super(props);
+
+    this.state = props.todo;
+  }
+
+  render(): JSX.Element {
+    const {complete, text} = this.state;
+
+    return (
+      <li>
+        <label
+          style={{
+            textDecoration: complete ? 'line-through' : undefined,
+          }}
+        ></label>
+        <input type="checkbox" readOnly checked={complete} /> {text}
+      </li>
+    );
+  }
+}
