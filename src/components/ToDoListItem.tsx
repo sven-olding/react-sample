@@ -14,7 +14,7 @@ export const ToDoListItem: React.FC<ToDoListItemProps> = (
       <label
         style={{textDecoration: todo.complete ? 'line-through' : undefined}}
       ></label>
-      <input type="checkbox" checked={todo.complete} /> {todo.text}
+      <input type="checkbox" readOnly checked={todo.complete} /> {todo.text}
     </li>
   );
 };
