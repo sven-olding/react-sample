@@ -11,7 +11,8 @@ interface ToDoListState {
   newToDoText: string;
 }
 
-export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
+export class ToDoList extends React.Component<ToDoListProps, ToDoListState>
+ {
   constructor(props: ToDoListProps) {
     super(props);
     this.state = {items: props.todos, newToDoText: ''};
