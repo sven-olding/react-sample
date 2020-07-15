@@ -2,3 +2,7 @@ h1 {
   color: white;
   background-color: blue;
 }
+
+ul li {
+  margin-bottom: 0.5em;
+}
