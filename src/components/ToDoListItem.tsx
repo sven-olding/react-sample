@@ -2,36 +2,28 @@ import React from 'react';
 
 interface ToDoListItemProps {
   todo: ToDo;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 }
 
-interface ToDoListItemState {
-  id: string;
-  text: string;
-  complete: boolean;
-}
-
-export class ToDoListItem extends React.Component<
-  ToDoListItemProps,
-  ToDoListItemState
-> {
-  constructor(props: ToDoListItemProps) {
-    super(props);
-
-    this.state = props.todo;
-  }
-
-  render(): JSX.Element {
-    const {complete, text} = this.state;
-
-    return (
-      <li>
-        <label
-          style={{
-            textDecoration: complete ? 'line-through' : undefined,
-          }}
-        ></label>
-        <input type="checkbox" readOnly checked={complete} /> {text}
-      </li>
-    );
-  }
-}
+export const ToDoListItem: React.FC<ToDoListItemProps> = (
+  props: ToDoListItemProps,
+) => {
+  const {complete, text, id} = props.todo;
+  return (
+    <li>
+      <input
+        type="checkbox"
+        checked={complete}
+        name="complete"
+        onChange={(e) => props.onChange(e, id)}
+      />
+      <label
+        style={{
+          textDecoration: complete ? 'line-through' : undefined,
+        }}
+      >
+        {text}
+      </label>
+    </li>
+  );
+};

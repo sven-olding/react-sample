@@ -17,6 +17,7 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
     this.state = {items: props.todos, newToDoText: ''};
     this.addItem = this.addItem.bind(this);
     this.setNewToDoText = this.setNewToDoText.bind(this);
+    this.handleToDoChange = this.handleToDoChange.bind(this);
   }
 
   addItem(event: React.FormEvent<HTMLFormElement>): void {
@@ -39,6 +40,27 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
     }));
   }
 
+  handleToDoChange(
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string,
+  ): void {
+    const {name, value, checked} = event.target;
+    const updTodos = [...this.state.items];
+    updTodos.map((t) => {
+      if (t.id === id) {
+        if (name === 'complete') {
+          t.complete = checked;
+        } else if (name === 'text') {
+          t.text = value;
+        }
+      }
+    });
+
+    this.setState(() => ({
+      items: updTodos,
+    }));
+  }
+
   render(): JSX.Element {
     const {items, newToDoText} = this.state;
 
@@ -46,7 +68,11 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
       <div>
         <ul>
           {items.map((todo: ToDo) => (
-            <ToDoListItem key={todo.text} todo={todo} />
+            <ToDoListItem
+              key={todo.id}
+              todo={todo}
+              onChange={this.handleToDoChange}
+            />
           ))}
         </ul>
         <form onSubmit={this.addItem}>
