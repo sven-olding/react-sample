@@ -8,8 +8,8 @@
   "license": "ISC",
   "scripts": {
     "clean": "rm dist/bundle.js",
-    "lint": "eslint src/",
-    "format": "prettier --write \"src/*.+(js|jsx|ts|tsx|json|yml|yaml|css|md|vue)\" \"src/*/*.+(js|jsx|ts|tsx|json|yml|yaml|css|md|vue)\"",
+    "lint": "eslint src/**/*",
+    "format": "prettier --write \"src/**/*.+(js|jsx|ts|tsx|json|yml|yaml|css|md|vue)\"",
     "build-dev": "webpack -d --mode development",
     "build-prod": "webpack -p --mode production",
     "start": "webpack-dev-server --hot --mode development"
@@ -59,11 +59,8 @@
     }
   },
   "lint-staged": {
-    "./src/*.(js|jsx|md|ts|tsx|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "src/*/*.+(js|jsx|ts|tsx|json|yml|yaml|css|md|vue)": [
+    "./src/**/*.(js|jsx|md|ts|tsx|css|sass|less|graphql|yml|yaml|scss|json|vue)": [
+      "stylelint --fix \"**/*.css\"",
       "eslint --fix",
       "prettier --write"
     ]
