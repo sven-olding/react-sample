@@ -20,10 +20,20 @@ export const ToDoListItem: React.FC<ToDoListItemProps> = (
       <label
         style={{
           textDecoration: complete ? 'line-through' : undefined,
+          display: !complete ? 'none' : undefined,
         }}
       >
         {text}
       </label>
+      <input
+        type="text"
+        value={text}
+        name="text"
+        onChange={(e) => props.onChange(e, id)}
+        style={{
+          display: complete ? 'none' : undefined,
+        }}
+      />
     </li>
   );
 };
