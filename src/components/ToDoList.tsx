@@ -1,6 +1,6 @@
 import React from 'react';
 import {ToDoListItem} from '../components/ToDoListItem';
-import axios from 'axios';
+import {ToDoService} from '../services/todo-service';
 
 interface ToDoListState {
   items: ToDo[];
@@ -12,44 +12,35 @@ interface ToDoListProps {
 }
 
 export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
+  private toDoService: ToDoService;
+
   constructor(props: ToDoListProps) {
     super(props);
     this.state = {items: [], newToDoText: ''};
     this.addItem = this.addItem.bind(this);
     this.setNewToDoText = this.setNewToDoText.bind(this);
     this.handleToDoChange = this.handleToDoChange.bind(this);
-    this.fetchToDoItems = this.fetchToDoItems.bind(this);
+
+    this.toDoService = new ToDoService();
   }
 
-  fetchToDoItems(): void {
-    axios
-      .get('https://localhost:5001/api/ToDoItems')
-      .then((resp) => {
-        if (resp.status === 200) {
-          const {data} = resp;
-          this.setState(() => ({items: data}));
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  componentDidMount(): void {
-    this.fetchToDoItems();
+  async componentDidMount(): Promise<void> {
+    const items = await this.toDoService.fetchToDoItems();
+    this.setState(() => ({items: items}));
   }
 
   addItem(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const newItem: ToDo = {
-      id: '1111',
       text: this.state.newToDoText,
       isComplete: false,
     };
-    this.setState((prevState) => ({
-      items: prevState.items.concat(newItem),
-      newToDoText: '',
-    }));
+    this.toDoService.createToDoItem(newItem).then(() => {
+      this.setState((prevState) => ({
+        items: prevState.items.concat(newItem),
+        newToDoText: '',
+      }));
+    });
   }
 
   setNewToDoText(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -72,6 +63,7 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
         } else if (name === 'text') {
           t.text = value;
         }
+        this.toDoService.updateToDoItem(t);
       }
     });
 
