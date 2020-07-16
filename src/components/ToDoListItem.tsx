@@ -8,19 +8,19 @@ interface ToDoListItemProps {
 export const ToDoListItem: React.FC<ToDoListItemProps> = (
   props: ToDoListItemProps,
 ) => {
-  const {complete, text, id} = props.todo;
+  const {isComplete, text, id} = props.todo;
   return (
     <li>
       <input
         type="checkbox"
-        checked={complete}
+        checked={isComplete}
         name="complete"
         onChange={(e) => props.onChange(e, id)}
       />
       <label
         style={{
-          textDecoration: complete ? 'line-through' : undefined,
-          display: !complete ? 'none' : undefined,
+          textDecoration: isComplete ? 'line-through' : undefined,
+          display: !isComplete ? 'none' : undefined,
         }}
       >
         {text}
@@ -31,7 +31,7 @@ export const ToDoListItem: React.FC<ToDoListItemProps> = (
         name="text"
         onChange={(e) => props.onChange(e, id)}
         style={{
-          display: complete ? 'none' : undefined,
+          display: isComplete ? 'none' : undefined,
         }}
       />
     </li>

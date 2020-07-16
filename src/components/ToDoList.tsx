@@ -1,31 +1,50 @@
 import React from 'react';
 import {ToDoListItem} from '../components/ToDoListItem';
-import {v4 as uuid} from 'uuid';
-
-interface ToDoListProps {
-  todos: ToDo[];
-}
+import axios from 'axios';
 
 interface ToDoListState {
   items: ToDo[];
   newToDoText: string;
 }
 
+interface ToDoListProps {
+  foo?: string;
+}
+
 export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
   constructor(props: ToDoListProps) {
     super(props);
-    this.state = {items: props.todos, newToDoText: ''};
+    this.state = {items: [], newToDoText: ''};
     this.addItem = this.addItem.bind(this);
     this.setNewToDoText = this.setNewToDoText.bind(this);
     this.handleToDoChange = this.handleToDoChange.bind(this);
+    this.fetchToDoItems = this.fetchToDoItems.bind(this);
+  }
+
+  fetchToDoItems(): void {
+    axios
+      .get('https://localhost:5001/api/ToDoItems')
+      .then((resp) => {
+        if (resp.status === 200) {
+          const {data} = resp;
+          this.setState(() => ({items: data}));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  componentDidMount(): void {
+    this.fetchToDoItems();
   }
 
   addItem(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const newItem: ToDo = {
-      id: uuid(),
+      id: '1111',
       text: this.state.newToDoText,
-      complete: false,
+      isComplete: false,
     };
     this.setState((prevState) => ({
       items: prevState.items.concat(newItem),
@@ -49,7 +68,7 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
     updTodos.map((t) => {
       if (t.id === id) {
         if (name === 'complete') {
-          t.complete = checked;
+          t.isComplete = checked;
         } else if (name === 'text') {
           t.text = value;
         }
