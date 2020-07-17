@@ -21,7 +21,9 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
     this.setNewToDoText = this.setNewToDoText.bind(this);
     this.handleToDoChange = this.handleToDoChange.bind(this);
 
-    this.toDoService = new ToDoService();
+    const baseUrl = process.env.API_URL || '';
+
+    this.toDoService = new ToDoService(baseUrl);
   }
 
   async componentDidMount(): Promise<void> {

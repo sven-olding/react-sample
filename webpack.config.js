@@ -1,5 +1,19 @@
-// const webpack = require("webpack");
+const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
+const dotenv = require('dotenv');
+
+const currentPath = path.join(__dirname);
+const basePath = currentPath + '/.env';
+
+const envPath = basePath + '.' + process.env.ENVIRONMENT;
+const finalPath = fs.existsSync(envPath) ? envPath : basePath;
+const fileEnv = dotenv.config({path: finalPath}).parsed;
+
+const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(fileEnv[next]);
+  return prev;
+}, {});
 
 const config = {
   entry: ['react-hot-loader/patch', './src/index.tsx'],
@@ -46,6 +60,10 @@ const config = {
   devServer: {
     contentBase: './dist',
   },
+  node: {
+    fs: 'empty',
+  },
+  plugins: [new webpack.DefinePlugin(envKeys)],
 };
 
 module.exports = config;

@@ -1,12 +1,15 @@
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 
 export class ToDoService {
-  private ax = axios.create({
-    baseURL: 'https://localhost:5001/api/ToDoItems',
-    headers: {
-      'Content-type': 'application/json',
-    },
-  });
+  private ax: AxiosInstance;
+  constructor(baseUrl: string) {
+    this.ax = axios.create({
+      baseURL: baseUrl,
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+  }
 
   async fetchToDoItems(): Promise<ToDo[]> {
     const resp = await this.ax.get('/');
