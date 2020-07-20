@@ -4,6 +4,7 @@ import App from './App';
 import dotenv from 'dotenv';
 
 import './styles.css';
+import './material-icons.css';
 
 dotenv.config();
 

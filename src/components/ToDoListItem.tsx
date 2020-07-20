@@ -34,6 +34,7 @@ export const ToDoListItem: React.FC<ToDoListItemProps> = (
           display: isComplete ? 'none' : undefined,
         }}
       />
+      <i className="material-icons">face</i>
     </li>
   );
 };
