@@ -5,6 +5,7 @@ import {ToDoService} from '../services/todo-service';
 interface ToDoListState {
   items: ToDo[];
   newToDoText: string;
+  error?: Error;
 }
 
 interface ToDoListProps {
@@ -32,17 +33,21 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
   }
 
   async fetchItems(): Promise<void> {
-    const items = await this.toDoService.fetchToDoItems();
-    items.sort((a, b) => {
-      if (a.id > b.id) {
-        return 1;
-      } else if (a.id < b.id) {
-        return -1;
-      } else {
-        return 0;
-      }
-    });
-    this.setState(() => ({items: items}));
+    try {
+      const items = await this.toDoService.fetchToDoItems();
+      items.sort((a, b) => {
+        if (a.id > b.id) {
+          return 1;
+        } else if (a.id < b.id) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      this.setState(() => ({items: items}));
+    } catch (error) {
+      this.setState({error});
+    }
   }
 
   addItem(event: React.FormEvent<HTMLFormElement>): void {
@@ -100,7 +105,8 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
   }
 
   render(): JSX.Element {
-    const {items, newToDoText} = this.state;
+    const {items, newToDoText, error} = this.state;
+    if (error) throw error;
 
     return (
       <div>

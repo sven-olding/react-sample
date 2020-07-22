@@ -3,6 +3,7 @@ import React from 'react';
 import {hot} from 'react-hot-loader/root';
 import {Greeting} from './components/Greeting';
 import {ToDoList} from './components/ToDoList';
+import {ErrorBoundary} from './components/ErrorBoundary';
 
 export interface AppProps {
   name: string;
@@ -18,7 +19,9 @@ export class App extends React.Component<AppProps> {
           <Greeting name={name} />
         </header>
         <main>
-          <ToDoList />
+          <ErrorBoundary>
+            <ToDoList />
+          </ErrorBoundary>
         </main>
         <footer />
       </div>
