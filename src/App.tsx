@@ -13,10 +13,14 @@ export class App extends React.Component<AppProps> {
     const {name} = this.props;
 
     return (
-      <div>
-        <Greeting name={name} />
-        Deine Aufgaben:
-        <ToDoList />
+      <div id="container">
+        <header>
+          <Greeting name={name} />
+        </header>
+        <main>
+          <ToDoList />
+        </main>
+        <footer />
       </div>
     );
   }

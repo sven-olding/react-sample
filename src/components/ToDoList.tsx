@@ -79,26 +79,28 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
 
     return (
       <div>
-        <ul>
-          {items.map((todo: ToDo) => (
-            <ToDoListItem
-              key={todo.id}
-              todo={todo}
-              onChange={this.handleToDoChange}
+        <div id="todolist">
+          <ul>
+            {items.map((todo: ToDo) => (
+              <ToDoListItem
+                key={todo.id}
+                todo={todo}
+                onChange={this.handleToDoChange}
+              />
+            ))}
+          </ul>
+          <form onSubmit={this.addItem}>
+            <input
+              type="text"
+              value={newToDoText}
+              placeholder="Deine neue Aufgabe..."
+              onChange={this.setNewToDoText}
             />
-          ))}
-        </ul>
-        <form onSubmit={this.addItem}>
-          <input
-            type="text"
-            value={newToDoText}
-            placeholder="Deine neue Aufgabe..."
-            onChange={this.setNewToDoText}
-          />
-          <button type="submit" disabled={this.state.newToDoText.length == 0}>
-            Neue Aufgabe
-          </button>
-        </form>
+            <button type="submit" disabled={this.state.newToDoText.length == 0}>
+              Neue Aufgabe
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
