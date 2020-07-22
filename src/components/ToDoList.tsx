@@ -33,6 +33,15 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
 
   async fetchItems(): Promise<void> {
     const items = await this.toDoService.fetchToDoItems();
+    items.sort((a, b) => {
+      if (a.id > b.id) {
+        return 1;
+      } else if (a.id < b.id) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
     this.setState(() => ({items: items}));
   }
 
