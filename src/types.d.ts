@@ -1,5 +1,5 @@
 interface ToDo {
-  id?: long;
+  id: number;
   text: string;
   isComplete: boolean;
 }

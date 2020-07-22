@@ -25,4 +25,8 @@ export class ToDoService {
     const resp = await this.ax.post('/', JSON.stringify(todo));
     return resp.data;
   }
+
+  async deleteToDoItem(todo: ToDo): Promise<void> {
+    return await this.ax.delete('/' + todo.id);
+  }
 }

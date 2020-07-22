@@ -18,6 +18,10 @@
   align-items: center;
 }
 
+.listItem > .material-icons {
+  cursor: pointer;
+}
+
 .listItemText {
   flex-basis: 200px;
 }

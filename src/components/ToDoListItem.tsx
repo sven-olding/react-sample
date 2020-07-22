@@ -2,7 +2,8 @@ import React from 'react';
 
 interface ToDoListItemProps {
   todo: ToDo;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>, id: number) => void;
+  onDelete: (event: React.MouseEvent, id: number) => void;
 }
 
 export const ToDoListItem: React.FC<ToDoListItemProps> = (
@@ -37,7 +38,9 @@ export const ToDoListItem: React.FC<ToDoListItemProps> = (
             }}
           />
         </div>
-        <i className="material-icons">face</i>
+        <i className="material-icons" onClick={(e) => props.onDelete(e, id)}>
+          delete
+        </i>
       </div>
     </li>
   );

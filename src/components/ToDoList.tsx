@@ -20,6 +20,7 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
     this.addItem = this.addItem.bind(this);
     this.setNewToDoText = this.setNewToDoText.bind(this);
     this.handleToDoChange = this.handleToDoChange.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
 
     const baseUrl = process.env.API_URL || '';
 
@@ -27,6 +28,10 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
   }
 
   async componentDidMount(): Promise<void> {
+    this.fetchItems();
+  }
+
+  async fetchItems(): Promise<void> {
     const items = await this.toDoService.fetchToDoItems();
     this.setState(() => ({items: items}));
   }
@@ -34,12 +39,13 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
   addItem(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const newItem: ToDo = {
+      id: -1,
       text: this.state.newToDoText,
       isComplete: false,
     };
-    this.toDoService.createToDoItem(newItem).then(() => {
+    this.toDoService.createToDoItem(newItem).then((newTodo) => {
       this.setState((prevState) => ({
-        items: prevState.items.concat(newItem),
+        items: prevState.items.concat(newTodo),
         newToDoText: '',
       }));
     });
@@ -52,9 +58,19 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
     }));
   }
 
+  handleDelete(event: React.MouseEvent, id: number): void {
+    const updTodos = [...this.state.items];
+    for (const t of updTodos) {
+      if (t.id === id) {
+        this.toDoService.deleteToDoItem(t).then(() => this.fetchItems());
+        break;
+      }
+    }
+  }
+
   handleToDoChange(
     event: React.ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: number,
   ): void {
     const {name, value, checked} = event.target;
     const updTodos = [...this.state.items];
@@ -86,6 +102,7 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
                 key={todo.id}
                 todo={todo}
                 onChange={this.handleToDoChange}
+                onDelete={this.handleDelete}
               />
             ))}
           </ul>
