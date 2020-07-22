@@ -12,14 +12,14 @@ export const ToDoListItem: React.FC<ToDoListItemProps> = (
   const {isComplete, text, id} = props.todo;
   return (
     <li>
-      <div className="listItem">
+      <div className="list-item">
         <input
           type="checkbox"
           checked={isComplete}
           name="complete"
           onChange={(e) => props.onChange(e, id)}
         />
-        <div className="listItemText">
+        <div className="list-item-text">
           <label
             style={{
               textDecoration: isComplete ? 'line-through' : undefined,

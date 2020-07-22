@@ -12,17 +12,17 @@
   padding-inline-start: 0;
 }
 
-.listItem {
+.list-item {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.listItem > .material-icons {
+.list-item > .material-icons {
   cursor: pointer;
 }
 
-.listItemText {
+.list-item-text {
   flex-basis: 200px;
 }
 
