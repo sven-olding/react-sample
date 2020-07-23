@@ -1,41 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {ToDoListItem} from '../components/ToDoListItem';
 import {ToDoService} from '../services/todo-service';
 import {ToDo} from '../types';
 
-interface ToDoListState {
-  items: ToDo[];
-  newToDoText: string;
-  error?: Error;
-}
+const ToDoList: React.FC = () => {
+  const [error, setError] = useState<Error>();
+  const [items, setItems] = useState<ToDo[]>([]);
+  const [newToDoText, setNewToDoText] = useState<string>('');
 
-interface ToDoListProps {
-  foo?: string;
-}
+  const toDoService = new ToDoService(process.env.API_URL || '');
 
-export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
-  private toDoService: ToDoService;
-
-  constructor(props: ToDoListProps) {
-    super(props);
-    this.state = {items: [], newToDoText: ''};
-    this.addItem = this.addItem.bind(this);
-    this.setNewToDoText = this.setNewToDoText.bind(this);
-    this.handleToDoChange = this.handleToDoChange.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-
-    const baseUrl = process.env.API_URL || '';
-
-    this.toDoService = new ToDoService(baseUrl);
-  }
-
-  async componentDidMount(): Promise<void> {
-    this.fetchItems();
-  }
-
-  async fetchItems(): Promise<void> {
+  const fetchItems = async () => {
     try {
-      const items = await this.toDoService.fetchToDoItems();
+      const items = await toDoService.fetchToDoItems();
       items.sort((a, b) => {
         if (a.id > b.id) {
           return 1;
@@ -45,50 +22,50 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
           return 0;
         }
       });
-      this.setState(() => ({items: items}));
-    } catch (error) {
-      this.setState({error});
+      setItems(items);
+    } catch (e) {
+      setError(e);
     }
-  }
+  };
 
-  addItem(event: React.FormEvent<HTMLFormElement>): void {
+  const addItem = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newItem: ToDo = {
       id: -1,
-      text: this.state.newToDoText,
+      text: newToDoText,
       isComplete: false,
     };
-    this.toDoService.createToDoItem(newItem).then((newTodo) => {
-      this.setState((prevState) => ({
-        items: prevState.items.concat(newTodo),
-        newToDoText: '',
-      }));
+    toDoService.createToDoItem(newItem).then((newToDo) => {
+      setItems(items.concat(newToDo));
+      setNewToDoText('');
     });
-  }
+  };
 
-  setNewToDoText(event: React.ChangeEvent<HTMLInputElement>): void {
-    event.persist();
-    this.setState(() => ({
-      newToDoText: event.target.value,
-    }));
-  }
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
-  handleDelete(event: React.MouseEvent, id: number): void {
-    const updTodos = [...this.state.items];
-    for (const t of updTodos) {
+  const onChangeNewToDoText = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewToDoText(event.target.value);
+  };
+
+  const handleDelete = (event: React.MouseEvent, id: number) => {
+    for (const t of items) {
       if (t.id === id) {
-        this.toDoService.deleteToDoItem(t).then(() => this.fetchItems());
+        toDoService.deleteToDoItem(t).then(() => fetchItems());
         break;
       }
     }
-  }
+  };
 
-  handleToDoChange(
+  const handleToDoChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     id: number,
-  ): void {
+  ) => {
+    console.log('handleToDoChange');
+    console.log(id);
     const {name, value, checked} = event.target;
-    const updTodos = [...this.state.items];
+    const updTodos = [...items];
     updTodos.map((t) => {
       if (t.id === id) {
         if (name === 'complete') {
@@ -96,45 +73,42 @@ export class ToDoList extends React.Component<ToDoListProps, ToDoListState> {
         } else if (name === 'text') {
           t.text = value;
         }
-        this.toDoService.updateToDoItem(t);
+        toDoService.updateToDoItem(t);
       }
     });
 
-    this.setState(() => ({
-      items: updTodos,
-    }));
-  }
+    setItems(updTodos);
+  };
 
-  render(): JSX.Element {
-    const {items, newToDoText, error} = this.state;
-    if (error) throw error;
+  if (error) throw error;
 
-    return (
-      <div>
-        <div id="todolist">
-          <ul>
-            {items.map((todo: ToDo) => (
-              <ToDoListItem
-                key={todo.id}
-                todo={todo}
-                onChange={this.handleToDoChange}
-                onDelete={this.handleDelete}
-              />
-            ))}
-          </ul>
-          <form onSubmit={this.addItem}>
-            <input
-              type="text"
-              value={newToDoText}
-              placeholder="Deine neue Aufgabe..."
-              onChange={this.setNewToDoText}
+  return (
+    <div>
+      <div id="todolist">
+        <ul>
+          {items.map((todo: ToDo) => (
+            <ToDoListItem
+              key={todo.id}
+              todo={todo}
+              onChange={handleToDoChange}
+              onDelete={handleDelete}
             />
-            <button type="submit" disabled={this.state.newToDoText.length == 0}>
-              Neue Aufgabe
-            </button>
-          </form>
-        </div>
+          ))}
+        </ul>
+        <form onSubmit={addItem}>
+          <input
+            type="text"
+            value={newToDoText}
+            placeholder="Deine neue Aufgabe..."
+            onChange={onChangeNewToDoText}
+          />
+          <button type="submit" disabled={newToDoText.length == 0}>
+            Neue Aufgabe
+          </button>
+        </form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default ToDoList;

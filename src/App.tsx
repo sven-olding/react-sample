@@ -1,9 +1,10 @@
 import React from 'react';
 
 import {hot} from 'react-hot-loader/root';
-import {Greeting} from './components/Greeting';
-import {ToDoList} from './components/ToDoList';
+
 import {ErrorBoundary} from './components/ErrorBoundary';
+import ToDoList from './components/ToDoList';
+import Greeting from './components/Greeting';
 
 export interface AppProps {
   name: string;
