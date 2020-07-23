@@ -1,4 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
+import {ToDo} from '../types';
 
 export class ToDoService {
   private ax: AxiosInstance;

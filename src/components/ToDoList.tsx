@@ -1,6 +1,7 @@
 import React from 'react';
 import {ToDoListItem} from '../components/ToDoListItem';
 import {ToDoService} from '../services/todo-service';
+import {ToDo} from '../types';
 
 interface ToDoListState {
   items: ToDo[];
