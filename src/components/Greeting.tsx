@@ -1,11 +1,12 @@
 import React from 'react';
+import {useAuth} from '../context/auth';
 
-interface GreetingProps {
-  name: string;
-}
-
-const Greeting: React.FC<GreetingProps> = (props: GreetingProps) => {
-  return <h1>Hallo, {props.name}</h1>;
+const Greeting: React.FC = () => {
+  const auth = useAuth();
+  if (auth.isLoggedIn) {
+    return <h1>Hallo, {auth.userName}</h1>;
+  }
+  return <h1>ToDo App</h1>;
 };
 
 export default Greeting;

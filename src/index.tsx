@@ -10,4 +10,4 @@ dotenv.config();
 
 const mountNode = document.getElementById('app');
 
-ReactDOM.render(<App name="Sven" />, mountNode);
+ReactDOM.render(<App />, mountNode);

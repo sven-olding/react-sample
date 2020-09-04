@@ -26,5 +26,13 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "plugins": ["react","@typescript-eslint"]
+  "plugins": ["react","@typescript-eslint"],
+  "overrides": [
+    {
+      "files": "**/*.tsx",
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
 }
